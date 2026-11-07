@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brioches all'albicocca</title>
+<meta name="description" content="Brioches all'albicocca, duo indie della provincia milanese. Ascolta Panico, Lucciole, Estate.">
+<meta name="theme-color" content="#0F0C0B">
+<meta property="og:title" content="Brioches all'albicocca">
+<meta property="og:description" content="Duo indie della provincia milanese. Cappuccio e brioche, grazie.">
+<meta property="og:image" content="assets/og.jpg">
+<meta property="og:locale" content="it_IT">
+<link rel="icon" href="assets/simbolo-albicocca.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Serif:ital@1&family=VT323&display=swap">
+<style>
+  /* Una videocassetta di notte vista su uno schermo di oggi. Colonna centrata, foto a tutto schermo, scritte della videocamera fisse negli angoli. */
+  :root {
+    --fondo: #0F0C0B; --fondo-2: #1C1714; --linea: #3A322C;
+    --flash: #F4F1EC; --flash-tenue: #A79E94;
+    --albicocca: #F08A3C; --albicocca-testo: #F5A263; --su-albicocca: #15110E;
+    --pellicola: #E0321F; --laser: #8B4DFF;
+    --marchio: Archivo, "Helvetica Neue", Arial, sans-serif;
+    --osd: VT323, "Courier New", monospace;
+    --corsivo: "Instrument Serif", Georgia, serif;
+    --ombra-osd: 0 0 2px rgba(0,0,0,.85), 1px 1px 0 rgba(0,0,0,.6);
+    --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+    --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--fondo); overflow-x: clip; }
+  body { margin: 0; background: var(--fondo); color: var(--flash); font: 400 17px/1.55 var(--marchio); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--albicocca-testo); outline-offset: 4px; }
+  ::selection { background: var(--albicocca); color: var(--su-albicocca); }
+
+  /* grana su tutto lo schermo */
+  .grana { position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .13; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.5 -.2'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>"); }
+  @media (prefers-reduced-motion: no-preference) { .grana { animation: grana .6s steps(4) infinite; } }
+  @keyframes grana { 25% { background-position: -40px 30px; } 50% { background-position: 30px -50px; } 75% { background-position: -20px -10px; } }
+
+  /* scritte della videocamera, fisse negli angoli */
+  .osd { position: fixed; z-index: 80; font: 400 26px/1 var(--osd); letter-spacing: .04em; text-transform: uppercase; color: var(--flash); text-shadow: var(--ombra-osd); pointer-events: none; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .osd.tl { top: calc(env(safe-area-inset-top, 0px) + 18px); left: calc(var(--gutter-l) + 6px); }
+  .osd.tr { top: calc(env(safe-area-inset-top, 0px) + 18px); right: calc(var(--gutter-r) + 6px); }
+  .osd.bl { bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); left: calc(var(--gutter-l) + 6px); }
+  .osd.br { bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); right: calc(var(--gutter-r) + 6px); }
+  .rec { width: 13px; height: 13px; border-radius: 50%; background: var(--albicocca); box-shadow: 0 0 14px rgba(240,138,60,.8); }
+  @media (prefers-reduced-motion: no-preference) { .rec { animation: lampeggia 1.2s steps(1) infinite; } }
+  @keyframes lampeggia { 50% { opacity: 0; } }
+
+  /* ===== apertura ===== */
+  .apertura { position: relative; min-height: 100svh; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; isolation: isolate; }
+  .apertura .foto { position: absolute; inset: 0; z-index: -2; }
+  .apertura .foto img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform: scale(1.06); filter: url(#mosso) saturate(1.1) brightness(.92); transition: filter 1.2s ease; }
+  .apertura.nitida .foto img { filter: saturate(1.05) brightness(.95); }
+  .apertura::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(rgba(15,12,11,.45), transparent 30%, transparent 50%, rgba(15,12,11,.85)); }
+  .apertura::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: repeating-linear-gradient(to bottom, rgba(0,0,0,.16) 0 1px, transparent 1px 3px); }
+  .luce { position: absolute; z-index: 1; width: 70vmax; height: 70vmax; left: 0; top: 0; pointer-events: none; mix-blend-mode: screen; opacity: .75;
+    background: radial-gradient(closest-side, rgba(224,50,31,.9), rgba(240,138,60,.45) 45%, transparent 75%);
+    transform: translate(40vw, -30vmax); transition: transform 1.4s cubic-bezier(.2,.7,.2,1); }
+  .apertura .testo { position: relative; z-index: 3; padding: 0 var(--gutter-r) clamp(64px, 12vh, 120px) var(--gutter-l); }
+  .marchio-piccolo { font: 800 clamp(12px, 1.4vw, 16px)/1 var(--marchio); letter-spacing: .02em; text-transform: uppercase; margin: 0 0 14px 4px; }
+  h1 { margin: 0; font-family: var(--marchio); font-weight: 900; text-transform: uppercase; line-height: .86; letter-spacing: -.01em;
+    font-size: clamp(28px, 8.4vw, 168px); font-stretch: 125%; font-variation-settings: "wdth" 125; }
+  h1 .riga { display: block; }
+  h1 .ap { color: var(--albicocca); }
+  @media (prefers-reduced-motion: no-preference) {
+    h1 { animation: allarga 1.8s cubic-bezier(.2,.7,.1,1) .2s both; }
+    @keyframes allarga { from { font-stretch: 62%; font-variation-settings: "wdth" 62; letter-spacing: .02em; opacity: 0; } 30% { opacity: 1; } }
+  }
+  .sotto { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; margin: 28px 0 0 4px; }
+  .pill { display: inline-flex; align-items: center; gap: 10px; font: 600 15px/1.2 var(--marchio); padding: 13px 22px; border-radius: 999px; text-decoration: none; border: 1.5px solid var(--flash); }
+  .pill.primario { background: var(--albicocca); border-color: var(--albicocca); color: var(--su-albicocca); box-shadow: 0 0 40px rgba(240,138,60,.35); }
+  .pill:hover { transform: translateY(-1px); }
+  .dedica { font: italic 400 clamp(22px, 2.4vw, 30px)/1.1 var(--corsivo); color: var(--flash); }
+
+  /* ===== nastro ===== */
+  .nastro { overflow: hidden; white-space: nowrap; background: var(--albicocca); color: var(--su-albicocca); padding-block: 12px; transform: rotate(-1.2deg); margin: -18px -3vw 0; position: relative; z-index: 5; }
+  .nastro .scorre { display: inline-flex; gap: 40px; padding-right: 40px; }
+  .nastro span { font: 900 clamp(22px, 3vw, 34px)/1 var(--marchio); font-stretch: 125%; font-variation-settings: "wdth" 125; text-transform: uppercase; }
+  @media (prefers-reduced-motion: no-preference) { .nastro .scorre { animation: scorre 22s linear infinite; } }
+  @keyframes scorre { to { transform: translateX(-50%); } }
+
+  /* ===== colonna ===== */
+  main { position: relative; z-index: 4; }
+  .colonna { max-width: 640px; margin: 0 auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+  section { padding-top: 120px; }
+  .titolo { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--linea); padding-bottom: 12px; margin-bottom: 28px; }
+  h2 { margin: 0; font: 900 clamp(34px, 6vw, 52px)/.95 var(--marchio); font-stretch: 125%; font-variation-settings: "wdth" 125; text-transform: uppercase; }
+  .etichetta { font: 400 21px/1 var(--osd); letter-spacing: .05em; text-transform: uppercase; color: var(--flash-tenue); white-space: nowrap; }
+
+  .player { position: relative; border-radius: 12px; overflow: hidden; background: var(--fondo-2); box-shadow: 0 0 0 1px var(--linea), 0 30px 80px -30px rgba(224,50,31,.45); }
+  .player iframe { display: block; width: 100%; height: 352px; border: 0; }
+  .link-osd { display: inline-block; margin-top: 18px; font: 400 22px/1 var(--osd); letter-spacing: .05em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+  .link-osd:hover { color: var(--albicocca-testo); }
+
+  /* date */
+  .date { list-style: none; margin: 0; padding: 0; }
+  .date li { border-bottom: 1px solid var(--linea); }
+  .date a, .date .vuota { display: grid; grid-template-columns: 6.5em 1fr auto; gap: 12px; align-items: baseline; padding: 16px 0; text-decoration: none; font: 400 24px/1.1 var(--osd); letter-spacing: .04em; text-transform: uppercase; }
+  .date .citta { font: 800 clamp(20px, 3vw, 26px)/1 var(--marchio); letter-spacing: 0; }
+  .date .dove { color: var(--flash-tenue); text-align: right; }
+  .date a:hover .citta { color: var(--albicocca); }
+  .date .vuota .citta { color: var(--flash-tenue); font-weight: 600; }
+
+  /* ===== rullino: striscia di pellicola che scorre di lato ===== */
+  .rullino-wrap { padding-top: 120px; }
+  .rullino-wrap .colonna { margin-bottom: 28px; }
+  .rullino { display: flex; gap: 0; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0 var(--gutter-r) 8px var(--gutter-l); }
+  .rullino::-webkit-scrollbar { display: none; }
+  .fotogramma { flex: none; scroll-snap-align: center; background: #070505; padding: 26px 8px; position: relative; }
+  .fotogramma::before, .fotogramma::after { content: ""; position: absolute; left: 0; right: 0; height: 12px;
+    background: repeating-linear-gradient(to right, transparent 0 7px, rgba(244,241,236,.85) 7px 17px, transparent 17px 26px); opacity: .55; border-radius: 2px; }
+  .fotogramma::before { top: 7px; } .fotogramma::after { bottom: 7px; }
+  .fotogramma figure { margin: 0; position: relative; width: clamp(200px, 26vw, 300px); aspect-ratio: 4 / 5; overflow: hidden; }
+  .fotogramma img { width: 100%; height: 100%; object-fit: cover; display: block; filter: url(#mosso) saturate(1.1); transform: scale(1.06); transition: filter .5s ease, transform .5s ease; }
+  .fotogramma:hover img, .fotogramma:focus-within img, .fotogramma.vista img { filter: saturate(1.05); transform: scale(1.01); }
+  .fotogramma .n { position: absolute; left: 10px; bottom: 6px; font: 400 18px/1 var(--osd); color: var(--albicocca); text-shadow: var(--ombra-osd); }
+  .fotogramma .t { position: absolute; left: 10px; top: 8px; font: 400 18px/1 var(--osd); color: var(--flash); text-shadow: var(--ombra-osd); text-transform: uppercase; letter-spacing: .05em; }
+  .rullino-nota { margin-top: 12px; }
+
+  /* ===== fine ===== */
+  .puntini { margin-top: 120px; border-top: 2px dotted var(--linea); }
+  footer { padding: 48px var(--gutter-r) 120px var(--gutter-l); display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+  footer img { width: min(100%, 360px); height: auto; margin-bottom: 12px; }
+  footer .piccolo { font: 400 18px/1.4 var(--osd); letter-spacing: .05em; text-transform: uppercase; color: var(--flash-tenue); margin: 12px 0 0; }
+
+  @media (max-width: 560px) {
+    .osd { font-size: 19px; }
+    .osd.br { display: none; }
+    .apertura .foto img { object-position: 22% 40%; }
+    .date a, .date .vuota { grid-template-columns: 5.2em 1fr; }
+    .date .dove { grid-column: 2; text-align: left; font-size: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .luce { transition: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="mosso" x="-10%" y="0" width="120%" height="100%"><feGaussianBlur stdDeviation="14 0.8"/></filter></svg>
+<div class="grana" aria-hidden="true"></div>
+
+<div class="osd tl" aria-hidden="true"><span class="rec"></span>REC</div>
+<div class="osd tr" aria-hidden="true" id="timecode">0:00:00</div>
+<div class="osd bl" aria-hidden="true" id="data">NOV 07 2026</div>
+<div class="osd br" aria-hidden="true">SP</div>
+
+<header class="apertura" id="apertura">
+  <div class="foto"><img src="assets/duo.jpg" alt="I due membri di Brioches all'albicocca, foto mossa con alberi sullo sfondo" width="1680" height="1540"></div>
+  <div class="luce" id="luce" aria-hidden="true"></div>
+  <div class="testo">
+    <p class="marchio-piccolo">Duo indie · provincia di Milano</p>
+    <h1><span class="riga">Brioches</span><span class="riga">all<span class="ap">’</span>albicocca</span></h1>
+    <div class="sotto">
+      <a class="pill primario" href="#ascolta">▶ Ascolta</a>
+      <span class="dedica">cappuccio e brioche, grazie.</span>
+    </div>
+  </div>
+</header>
+
+<div class="nastro" aria-hidden="true"><div class="scorre"><span>Panico</span><span>●</span><span>Lucciole</span><span>●</span><span>Estate</span><span>●</span><span>Ragazzi</span><span>●</span><span>Panico</span><span>●</span><span>Lucciole</span><span>●</span><span>Estate</span><span>●</span><span>Ragazzi</span><span>●</span></div></div>
+
+<main>
+  <section id="ascolta" class="colonna" aria-labelledby="t-ascolta">
+    <div class="titolo"><h2 id="t-ascolta">Ascolta</h2><span class="etichetta">▶ Play</span></div>
+    <div class="player">
+      <iframe title="Brioches all'albicocca su Spotify" src="https://open.spotify.com/embed/artist/0a2gKlltawravSEqQRxRWE?utm_source=generator&amp;theme=0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+    <a class="link-osd" href="https://open.spotify.com/artist/0a2gKlltawravSEqQRxRWE" target="_blank" rel="noopener">Apri su Spotify →</a>
+  </section>
+
+  <section id="date" class="colonna" aria-labelledby="t-date">
+    <div class="titolo"><h2 id="t-date">Dal vivo</h2><span class="etichetta">● Live</span></div>
+    <ul class="date">
+      <!--
+        PER AGGIUNGERE UNA DATA copia questo blocco, cambia data, città, locale e link ai biglietti,
+        poi cancella la riga "Nuove date in arrivo":
+        <li><a href="https://link-ai-biglietti" target="_blank" rel="noopener"><span>14.11.26</span><span class="citta">Milano</span><span class="dove">Arci Bellezza →</span></a></li>
+      -->
+      <li><div class="vuota"><span>— — . — —</span><span class="citta">Nuove date in arrivo</span><span class="dove"></span></div></li>
+      <li><a href="https://www.instagram.com/briochesallalbicocca/" target="_blank" rel="noopener"><span>Avvisi</span><span class="citta">Seguici su Instagram</span><span class="dove">→</span></a></li>
+    </ul>
+  </section>
+
+  <div class="rullino-wrap" id="rullino" aria-labelledby="t-rullino">
+    <div class="colonna"><div class="titolo"><h2 id="t-rullino">Rullino</h2><span class="etichetta">36 pose</span></div></div>
+    <div class="rullino" tabindex="0" aria-label="Foto della band, scorri di lato">
+      <div class="fotogramma"><figure><img src="assets/lucciole.jpg" alt="Il duo in un campo al tramonto" loading="lazy"><span class="t">Lucciole</span><span class="n">12A</span></figure></div>
+      <div class="fotogramma"><figure><img src="assets/rosso.jpg" alt="Una coppia sotto luci rosse a una festa" loading="lazy"><span class="t">Panico</span><span class="n">13</span></figure></div>
+      <div class="fotogramma"><figure><img src="assets/acqua.jpg" alt="L'acqua del mare al tramonto" loading="lazy"><span class="t">Estate</span><span class="n">13A</span></figure></div>
+      <div class="fotogramma"><figure><img src="assets/laser.jpg" alt="Laser viola a un concerto" loading="lazy"><span class="t">Live</span><span class="n">14</span></figure></div>
+      <div class="fotogramma"><figure><img src="assets/tv.jpg" alt="Tre bambini davanti alla televisione, anni 2000" loading="lazy"><span class="t">2004</span><span class="n">14A</span></figure></div>
+      <div class="fotogramma"><figure><img src="assets/viola.jpg" alt="Un volto mosso in luce viola" loading="lazy"><span class="t">Serata 2</span><span class="n">15</span></figure></div>
+      <div class="fotogramma"><figure><img src="assets/festa.jpg" alt="Una ragazza canta tra luci verdi" loading="lazy"><span class="t">Live</span><span class="n">15A</span></figure></div>
+      <div class="fotogramma"><figure><img src="assets/fiori.jpg" alt="Fiori piantati nella sabbia" loading="lazy"><span class="t">Estate</span><span class="n">16</span></figure></div>
+      <div class="fotogramma"><figure><img src="assets/duomo.jpg" alt="Il Duomo di Milano in bianco e nero" loading="lazy"><span class="t">Milano</span><span class="n">16A</span></figure></div>
+    </div>
+    <div class="colonna rullino-nota"><span class="etichetta">← scorri · passa sopra per mettere a fuoco →</span></div>
+  </div>
+
+  <div class="puntini colonna" role="presentation"></div>
+  <footer>
+    <img src="assets/rec-flash.svg" alt="Brioches all'albicocca" width="1400" height="130">
+    <a class="link-osd" href="https://www.instagram.com/briochesallalbicocca/" target="_blank" rel="noopener">Instagram</a>
+    <a class="link-osd" href="https://open.spotify.com/artist/0a2gKlltawravSEqQRxRWE" target="_blank" rel="noopener">Spotify</a>
+    <a class="link-osd" href="https://www.instagram.com/briochesallalbicocca/" target="_blank" rel="noopener">Booking e contatti</a>
+    <p class="piccolo">Brioches all'albicocca · provincia di Milano · 2026</p>
+  </footer>
+</main>
+
+<script>
+  (function () {
+    var ridotto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // timecode: da quanto tempo sei sulla pagina
+    var t0 = Date.now(), tc = document.getElementById('timecode');
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() { var s = Math.floor((Date.now() - t0) / 1000); tc.textContent = Math.floor(s / 3600) + ':' + pad(Math.floor(s / 60) % 60) + ':' + pad(s % 60); }
+    tick(); setInterval(tick, 1000);
+    // data di oggi, come la videocamera
+    var mesi = ['GEN','FEB','MAR','APR','MAG','GIU','LUG','AGO','SET','OTT','NOV','DIC'], d = new Date();
+    document.getElementById('data').textContent = mesi[d.getMonth()] + ' ' + pad(d.getDate()) + ' ' + d.getFullYear();
+    // la foto del duo va a fuoco dopo un attimo
+    var ap = document.getElementById('apertura');
+    setTimeout(function () { ap.classList.add('nitida'); }, ridotto ? 0 : 1400);
+    // la luce che brucia la pellicola segue il cursore
+    var luce = document.getElementById('luce');
+    if (!ridotto) {
+      ap.addEventListener('pointermove', function (e) {
+        var r = ap.getBoundingClientRect(), w = luce.offsetWidth;
+        luce.style.transform = 'translate(' + (e.clientX - r.left - w / 2) + 'px,' + (e.clientY - r.top - w / 2) + 'px)';
+      });
+    }
+    // sul telefono le foto del rullino vanno a fuoco quando arrivano al centro
+    if ('IntersectionObserver' in window && matchMedia('(hover: none)').matches) {
+      var io = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.classList.toggle('vista', e.isIntersecting); }); }, { root: document.querySelector('.rullino'), threshold: .75 });
+      document.querySelectorAll('.fotogramma').forEach(function (f) { io.observe(f); });
+    }
+  })();
+</script>
+</body>
+</html>
